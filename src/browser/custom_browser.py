@@ -1,4 +1,5 @@
 import asyncio
+import os
 import pdb
 
 from playwright.async_api import Browser as PlaywrightBrowser
@@ -9,7 +10,7 @@ from playwright.async_api import (
     Playwright,
     async_playwright,
 )
-from browser_use.browser.browser import Browser, IN_DOCKER
+from browser_use.browser.browser import Browser
 from browser_use.browser.context import BrowserContext, BrowserContextConfig
 from playwright.async_api import BrowserContext as PlaywrightBrowserContext
 import logging
@@ -29,6 +30,9 @@ import socket
 from .custom_context import CustomBrowserContext
 
 logger = logging.getLogger(__name__)
+
+# Defined locally rather than imported from browser_use, whose internals move between releases
+IN_DOCKER = os.environ.get('IN_DOCKER', 'false').lower()[:1] in ('t', 'y', '1')
 
 
 class CustomBrowser(Browser):
